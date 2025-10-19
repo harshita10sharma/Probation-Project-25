@@ -1,306 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle CO2 Emission Predictor</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .alert {
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            animation: slideIn 0.5s ease;
-        }
-        
-        .alert.success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
-        
-        .alert.error {
-            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-            color: white;
-        }
-        
-        .prediction-box {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .prediction-value {
-            font-size: 3em;
-            font-weight: 800;
-            margin: 10px 0;
-        }
-        
-        .prediction-label {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 0.95em;
-        }
-        
-        input {
-            padding: 14px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        input:hover {
-            border-color: #999;
-        }
-        
-        .btn-predict {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.3em;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .btn-predict:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.6);
-        }
-        
-        .btn-predict:active {
-            transform: translateY(0);
-        }
-        
-        .section-title {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: #333;
-            margin: 30px 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px auto;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-            
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .prediction-value {
-                font-size: 2em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle CO2 Emission Predictor</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 960px; margin: 32px auto; background: #fff; border-radius: 16px;
+                 box-shadow: 0 18px 50px rgba(0,0,0,.25); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; padding: 32px; text-align:center; }
+    .header h1 { font-size: 28px; font-weight: 800; }
+    .content { padding: 28px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+    label { font-size: 13px; font-weight: 700; color:#333; margin-bottom: 6px; display:block; }
+    input, select { width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 10px; background:#f9fafb;
+                    transition: .2s border-color, .2s box-shadow; }
+    input:focus, select:focus { outline: none; border-color:#667eea; box-shadow: 0 0 0 3px rgba(102,126,234,.12); background:#fff; }
+    .btn { margin-top: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; padding: 14px 20px;
+           border: 0; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%;
+           box-shadow: 0 10px 25px rgba(102,126,234,.45); }
+    .btn:hover { transform: translateY(-2px); }
+    .alert { padding: 14px; border-radius: 10px; margin-bottom: 18px; color: #fff; }
+    .alert.error { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
+    .alert.ok { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+    .prediction { text-align:center; padding: 6px 0; }
+    .prediction .value { font-size: 32px; font-weight: 900; }
+    .section { font-size: 14px; font-weight: 800; color:#374151; margin: 18px 0 8px; }
+    @media (max-width: 520px){ .header h1 { font-size: 22px; } }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Vehicle CO2 Emission Predictor</h1>
-            <p>Predict carbon dioxide emissions based on vehicle specifications</p>
-        </div>
-        
-        <div class="content">
-            {% if error %}
-            <div class="alert error">
-                <strong>Error:</strong> {{ error }}
-            </div>
-            {% endif %}
-            
-            {% if prediction %}
-            <div class="alert success">
-                <div class="prediction-box">
-                    <div class="prediction-label">Predicted CO2 Emissions</div>
-                    <div class="prediction-value">{{ prediction }} g/km</div>
-                </div>
-            </div>
-            {% endif %}
-            
-            <form method="POST" action="/predict">
-                <div class="section-title">Vehicle Information</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="MAKE">Make</label>
-                        <input type="text" id="MAKE" name="MAKE" 
-                               placeholder="e.g., ACURA" 
-                               value="{% if input_data %}{{ input_data.get('MAKE', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="MODEL">Model</label>
-                        <input type="text" id="MODEL" name="MODEL" 
-                               placeholder="e.g., 3.2TL" 
-                               value="{% if input_data %}{{ input_data.get('MODEL', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="VEHICLE CLASS">Vehicle Class</label>
-                        <input type="text" id="VEHICLE CLASS" name="VEHICLE CLASS" 
-                               placeholder="e.g., MID-SIZE" 
-                               value="{% if input_data %}{{ input_data.get('VEHICLE CLASS', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="TRANSMISSION">Transmission</label>
-                        <input type="text" id="TRANSMISSION" name="TRANSMISSION" 
-                               placeholder="e.g., AS5" 
-                               value="{% if input_data %}{{ input_data.get('TRANSMISSION', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="FUEL">Fuel Type</label>
-                        <input type="text" id="FUEL" name="FUEL" 
-                               placeholder="e.g., Z" 
-                               value="{% if input_data %}{{ input_data.get('FUEL', '') }}{% endif %}" 
-                               required>
-                    </div>
-                </div>
-                
-                <div class="section-title">Technical Specifications</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="ENGINE SIZE">Engine Size (L)</label>
-                        <input type="number" step="0.1" id="ENGINE SIZE" name="ENGINE SIZE" 
-                               placeholder="e.g., 3.2" 
-                               value="{% if input_data %}{{ input_data.get('ENGINE SIZE', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="CYLINDERS">Cylinders</label>
-                        <input type="number" id="CYLINDERS" name="CYLINDERS" 
-                               placeholder="e.g., 6" 
-                               value="{% if input_data %}{{ input_data.get('CYLINDERS', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="FUEL CONSUMPTION">Fuel Consumption (L/100km)</label>
-                        <input type="number" step="0.1" id="FUEL CONSUMPTION" name="FUEL CONSUMPTION" 
-                               placeholder="e.g., 13.7" 
-                               value="{% if input_data %}{{ input_data.get('FUEL CONSUMPTION', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="ENGINE_CYLINDER_RATIO">Engine/Cylinder Ratio</label>
-                        <input type="number" step="0.01" id="ENGINE_CYLINDER_RATIO" name="ENGINE_CYLINDER_RATIO" 
-                               placeholder="e.g., 0.533" 
-                               value="{% if input_data %}{{ input_data.get('ENGINE_CYLINDER_RATIO', '') }}{% endif %}" 
-                               required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="POWER_INDICATOR">Power Indicator</label>
-                        <input type="number" step="0.1" id="POWER_INDICATOR" name="POWER_INDICATOR" 
-                               placeholder="e.g., 19.2" 
-                               value="{% if input_data %}{{ input_data.get('POWER_INDICATOR', '') }}{% endif %}" 
-                               required>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn-predict">Predict Emissions</button>
-            </form>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>Vehicle CO2 Emission Predictor</h1>
+      <p>Enter specifications to estimate emissions (g/km)</p>
     </div>
+
+    <div class="content">
+      {% if error %}
+        <div class="alert error"><strong>Error:</strong> {{ error }}</div>
+      {% endif %}
+
+      {% if prediction is not none %}
+        <div class="alert ok">
+          <div class="prediction">
+            <div>Predicted CO₂ Emissions</div>
+            <div class="value">{{ prediction }} g/km</div>
+          </div>
+        </div>
+      {% endif %}
+
+      <form method="POST" action="/predict">
+        <div class="section">Vehicle</div>
+        <div class="grid">
+          <div>
+            <label for="MAKE">Make</label>
+            <select id="MAKE" name="MAKE" required>
+              <option value="" disabled {% if not input_data %}selected{% endif %}>Select</option>
+              {% for opt in categories['MAKE'] %}
+                <option value="{{ opt }}" {% if input_data and input_data.get('MAKE') == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label for="MODEL">Model</label>
+            <select id="MODEL" name="MODEL" required>
+              <option value="" disabled {% if not input_data %}selected{% endif %}>Select</option>
+              {% for opt in categories['MODEL'] %}
+                <option value="{{ opt }}" {% if input_data and input_data.get('MODEL') == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label for="VEHICLE CLASS">Vehicle Class</label>
+            <select id="VEHICLE CLASS" name="VEHICLE CLASS" required>
+              <option value="" disabled {% if not input_data %}selected{% endif %}>Select</option>
+              {% for opt in categories['VEHICLE CLASS'] %}
+                <option value="{{ opt }}" {% if input_data and input_data.get('VEHICLE CLASS') == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label for="TRANSMISSION">Transmission</label>
+            <select id="TRANSMISSION" name="TRANSMISSION" required>
+              <option value="" disabled {% if not input_data %}selected{% endif %}>Select</option>
+              {% for opt in categories['TRANSMISSION'] %}
+                <option value="{{ opt }}" {% if input_data and input_data.get('TRANSMISSION') == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div>
+            <label for="FUEL">Fuel Type</label>
+            <select id="FUEL" name="FUEL" required>
+              <option value="" disabled {% if not input_data %}selected{% endif %}>Select</option>
+              {% for opt in categories['FUEL'] %}
+                <option value="{{ opt }}" {% if input_data and input_data.get('FUEL') == opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="section">Technical</div>
+        <div class="grid">
+          <div>
+            <label for="ENGINE SIZE">Engine Size (L)</label>
+            <input type="number" step="0.1" id="ENGINE SIZE" name="ENGINE SIZE"
+                   value="{{ input_data.get('ENGINE SIZE') if input_data else '' }}" required />
+          </div>
+
+          <div>
+            <label for="CYLINDERS">Cylinders</label>
+            <input type="number" step="1" id="CYLINDERS" name="CYLINDERS"
+                   value="{{ input_data.get('CYLINDERS') if input_data else '' }}" required />
+          </div>
+
+          <div>
+            <label for="FUEL CONSUMPTION">Fuel Consumption (L/100km)</label>
+            <input type="number" step="0.1" id="FUEL CONSUMPTION" name="FUEL CONSUMPTION"
+                   value="{{ input_data.get('FUEL CONSUMPTION') if input_data else '' }}" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Predict Emissions</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
